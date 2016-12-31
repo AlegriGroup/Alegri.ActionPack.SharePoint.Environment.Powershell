@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<alg:Actionflow xmlns:alg="http://schemas.powershell.ActionFlow.alegri.eu">
+  <alg:ActionConfigure>
+    
+    <alg:Actions Ignore="false">
+      <alg:Action ActionDescription="Environment Init" Ignore="false" ActionID="1010">
+        <alg:AutomationAction>
+          <alg:ActionObject>
+            <alg:AP_SPEnvironment_Init 
+              pathXMLEnvironment="C:\GitRepos\Powershell Action Pack SharePoint Environment\AlegriActionPackSharePointEnvironment\AlegriActionPackSharePointEnvironment\XMLFiles\ExampleEnvironments.xml" 
+              pathXMLUserCredential="C:\GitRepos\Powershell Action Pack SharePoint Environment\AlegriActionPackSharePointEnvironment\AlegriActionPackSharePointEnvironment\XMLFiles\ExampleUserCredential.xml"
+            />
+          </alg:ActionObject>
+        </alg:AutomationAction>
+      </alg:Action>
+      <alg:Action ActionDescription="Test Environment Connect" Ignore="false" ActionID="1020">
+        <alg:AutomationAction>
+          <alg:ActionObject>
+            <alg:AP_SPEnvironment_Connect EnvironmentName="devPat" UserCredentialName="dev_pat" LoadAllWebs="true"/>
+          </alg:ActionObject>
+        </alg:AutomationAction>
+      </alg:Action>
+      <alg:Action ActionDescription="Test Environment InitWeb" Ignore="false" ActionID="1030">
+        <alg:AutomationAction>
+          <alg:ActionObject>
+            <alg:AP_SPEnvironment_InitWeb SiteTitle="POC VFPos"/>
+          </alg:ActionObject>
+        </alg:AutomationAction>
+      </alg:Action>
+      <alg:Action ActionDescription="Test Environment Disconnect" Ignore="false" ActionID="2000">
+        <alg:AutomationAction>
+          <alg:ActionObject>
+            <alg:AP_SPEnvironment_Disconnect EnvironmentName="devPat"/>
+          </alg:ActionObject>
+        </alg:AutomationAction>
+      </alg:Action>
+    </alg:Actions>
+    
+  </alg:ActionConfigure>
+</alg:Actionflow>

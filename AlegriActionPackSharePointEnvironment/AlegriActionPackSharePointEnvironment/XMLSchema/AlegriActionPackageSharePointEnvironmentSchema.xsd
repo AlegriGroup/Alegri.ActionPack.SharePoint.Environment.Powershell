@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:alg="http://schemas.powershell.ActionFlow.alegri.eu" 
+           attributeFormDefault="unqualified"
+           elementFormDefault="qualified" 
+           targetNamespace="http://schemas.powershell.ActionFlow.alegri.eu"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="ActionObject">
+    <xs:annotation>
+      <xs:documentation>
+        This describes an ActionObject
+        Hiermit wird ein Action Object beschrieben
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <!--From here you can define your action elements -->
+        <!--Ab hier können Sie ihre Aktionselemente hinterlegen-->
+        <xs:element name="AP_SPEnvironment_Init" type="alg:InitEnvironment" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="AP_SPEnvironment_Connect" type="alg:ConnectEnvironment" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="AP_SPEnvironment_Disconnect" type="alg:DisconnectEnvironment" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="AP_SPEnvironment_InitWeb" type="alg:InitWeb" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+ 
+  <xs:complexType name="InitEnvironment">
+    <xs:annotation>
+      <xs:documentation>
+        The environments and user credentials are loaded into the session
+        Es werden die Umgebungen und User Anmeldeinformationen in die Sitzung geladen
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="pathXMLEnvironment" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          The Path to the XML Environment.
+          Die Pfadangabe zu der Umgebungen XML. 
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="pathXMLUserCredential" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          The Path to the XML UserCredential.
+          Die Pfadangabe zu der User Anmeldeinformation XML.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="ConnectEnvironment">
+    <xs:annotation>
+      <xs:documentation>
+        This Connects with the Environment
+        Verbindet sich mit der Umgebung
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="EnvironmentName" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          The Name from the Environment[Designation from Environment]
+          Der Name der Umgebung [Designation aus Environment]
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="UserCredentialName" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          The Name from the UserCredential[CredentialName from UserCredential]. Caution. If you place a user credential here, the userCredential is overwritten from the environment
+          Der Name aus dem UserCredential [CredentialName aus UserCredential]. Vorsicht. Wenn Sie hier einen User-Credential angeben, wird das UserCredential von der Umgebung überschrieben.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="LoadAllWebs" type="xs:boolean" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          If you set the value to True, all Webs will be loaded by the complete SiteCollection.
+          Wenn Sie den Wert auf True setzen, werden alle Webs von der kompletten SiteCollection geladen.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+  
+  <xs:complexType name="DisconnectEnvironment">
+    <xs:annotation>
+      <xs:documentation>
+        Disconnects the connection with the environment
+        Trennt die Verbindung mit der Umgebung
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="EnvironmentName" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          The Name from the Environment[Designation from Environment]
+          Der Name der Umgebung [Designation aus Environment]
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="InitWeb">
+    <xs:annotation>
+      <xs:documentation>
+        The specified environment becomes the current environment
+        Die angegebene Umgebung wird zur aktuellen Umgebung
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="SiteTitle" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Please specify the web title you are currently loading
+          Bitte geben Sie den Web Titel an, den Sie gerade laden wollen 
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+</xs:schema>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<alg:EnvironmentConfiguration xmlns:alg="http://schemas.powershell.ActionFlow.Environment.alegri.eu">
+  <alg:Environment Designation="devPat" 
+                   ConnectTyp="Teamsite" 
+                   Credential="dev_marcel" 
+                   SharePointVersion="16" 
+                   SiteRelUrl="/sites/pocVFPos/" 
+                   SiteUrl="https://pcampergue.sharepoint.com/sites/pocVFPos/" 
+  />
+</alg:EnvironmentConfiguration>

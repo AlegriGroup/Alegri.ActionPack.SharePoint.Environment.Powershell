@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:alg="http://schemas.powershell.ActionFlow.Environment.alegri.eu"
+           attributeFormDefault="unqualified"
+           elementFormDefault="qualified"
+           targetNamespace="http://schemas.powershell.ActionFlow.Environment.alegri.eu"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="EnvironmentConfiguration">
+    <xs:annotation>
+      <xs:documentation>
+         You can define different environments here. 
+         Sie können hier die verschiedene Umgebungen definieren.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Environment" type="alg:Environment" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="Environment">
+    <xs:annotation>
+      <xs:documentation>
+        Defines an environment.
+
+        Hiermit definieren Sie eine Umgebung.
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="Designation" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Give the environment a unique name in the configuration file.
+          You transfer this value when you start the provisioning process.
+
+          Geben Sie der Umgebung einen in der Konfigurationsdatei eindeutigen Namen.
+          Diesen Wert übergeben Sie beim Starten der Provisionierung.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="SiteUrl" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Enter the url to the environment
+
+          Geben Sie hier die Url zu der Umgebung an
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="SiteRelUrl" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Specify the Relative Url site for the environment. (E.g. / Sites / 05062 /)
+          Geben Sie hier die Site Realtive Url zu der Umgebung an (z.B. /sites/05062/)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="Credential" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Specify here the credential name of the credential to be used to connect to the site.
+
+          Geben Sie hier den Credential Namen der Credential an, die verwendet werden soll um sich mit der Site zu verbinden.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="ConnectTyp" type="alg:ConnectTyp" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Please select the connection type.There are three types: Teamsite, ADFS, ADFS-SecurePin
+
+          Wählen Sie hier bitte den Verbindungstyp aus.Es gibt drei Arten: Teamsite, ADFS, ADFS-SecurePin
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="SharePointVersion" type="xs:integer" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          There are two SharePoint versions 15 and 16. Please specify the correct version from the environment.This is required for pages or WebParts to be used in different versions.
+
+          Es gibt zwei SharePoint Versionen 15 und 16. Bitte geben Sie von der Umgebung die korrekte Version an.Diese wird benötigt damit Pages bzw. WebParts in verschiedene Versionen verwendenbar sind.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:simpleType name="ConnectTyp">
+    <xs:annotation>
+      <xs:documentation>
+        The connection types available
+        Die Verbindungstypen die zur Verfügung stehen
+      </xs:documentation>
+    </xs:annotation>
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Teamsite" >
+        <xs:annotation>
+          <xs:documentation>
+            The simplest form of the connection.
+            Die einfachste Form der Verbindung.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ADFS">
+        <xs:annotation>
+          <xs:documentation>
+            Connect to ADFS => There must be the Alegri Powershell add-on module.
+            Verbindung mit ADFS => Es muss das Alegri Powershell Zusatzmodul vorhanden sein.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="ADFS-SecurePin" >
+        <xs:annotation>
+          <xs:documentation>
+            Connect to ADFS with SecurePin => There must be the Alegri Powershell add-on module.
+            Verbindung mit ADFS und SecurePin => Es muss das Alegri Powershell Zusatzmodul vorhanden sein.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
