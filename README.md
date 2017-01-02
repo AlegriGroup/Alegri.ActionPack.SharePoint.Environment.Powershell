@@ -23,7 +23,7 @@ Folgende Aktionen stehen Ihnen zur Verfügung.
 | AP_SPEnvironment_InitWeb | Die angegebene Umgebung wird zur aktuellen Umgebung |
 
 ## Beispiel für die Verwendung der Aktionen
-![image](https://cloud.githubusercontent.com/assets/6292190/21577764/10f5e8ba-cf67-11e6-86b6-ce356544baac.png)
+![image](https://github.com/Campergue/Alegri.ActionPack.SharePoint.Environment.Powershell/blob/master/AlegriActionPackSharePointEnvironment/AlegriActionPackSharePointEnvironment/Documentation/BeispielActionXML.png)
 
 # AP_SPEnvironment_Init
 Es werden die Umgebungen und User Anmeldeinformationen in die Sitzung geladen
@@ -41,7 +41,7 @@ Sobald Sie sich mit einer Umgebung Verbunden haben steht Ihnen die aktuelle Umge
 Das verwendete Schema http://schemas.powershell.ActionFlow.Environment.alegri.eu
 
 ### Beispiel XML
-![image](https://cloud.githubusercontent.com/assets/6292190/21587518/a26184f4-d0dd-11e6-9470-01e06e94a6a6.png)
+![image](https://github.com/Campergue/Alegri.ActionPack.SharePoint.Environment.Powershell/blob/master/AlegriActionPackSharePointEnvironment/AlegriActionPackSharePointEnvironment/Documentation/BeispielUmgebungXML.png)
 
 ### EnvironmentConfiguration
 Sie können hier die verschiedene Umgebungen definieren.
@@ -67,7 +67,7 @@ Sobald Sie sich mit einer Umgebung Verbunden haben steht Ihnen der aktuelle User
 Das verwendete Schema http://schemas.powershell.ActionFlow.UserCredential.alegri.eu
 
 ### Beispiel XML
-![image](https://github.com/Campergue/Alegri.ActionPack.SharePoint.Environment.Powershell/blob/master/AlegriActionPackSharePointEnvironment/AlegriActionPackSharePointEnvironment/Documentation/BeispielUmgebungXML.png)
+![image](https://github.com/Campergue/Alegri.ActionPack.SharePoint.Environment.Powershell/blob/master/AlegriActionPackSharePointEnvironment/AlegriActionPackSharePointEnvironment/Documentation/ExampleUserCredential.png)
 
 ### UserCredentialConfiguration
 Sie können hier die verschiedene UserCredential definieren.
@@ -147,7 +147,7 @@ The following Actions are available to you.
 | AP_SPEnvironment_InitWeb | The specified environment becomes the current environment |
 
 ## Example of using the actions
-![image](https://cloud.githubusercontent.com/assets/6292190/21577764/10f5e8ba-cf67-11e6-86b6-ce356544baac.png)
+![image](https://github.com/Campergue/Alegri.ActionPack.SharePoint.Environment.Powershell/blob/master/AlegriActionPackSharePointEnvironment/AlegriActionPackSharePointEnvironment/Documentation/BeispielActionXML.png)
 
 # AP_SPEnvironment_Init
 The environments and user credentials are loaded into the session
@@ -165,7 +165,7 @@ Once you are connected to an environment, the current environment is available i
 The scheme used http://schemas.powershell.ActionFlow.Environment.alegri.eu
 
 ### Example XML
-![image](https://cloud.githubusercontent.com/assets/6292190/21577249/8abb2a06-cf54-11e6-8af8-94c0579d4001.png)
+![image](https://github.com/Campergue/Alegri.ActionPack.SharePoint.Environment.Powershell/blob/master/AlegriActionPackSharePointEnvironment/AlegriActionPackSharePointEnvironment/Documentation/BeispielUmgebungXML.png)
 
 ### EnvironmentConfiguration
 You can define different environments here.
@@ -191,7 +191,7 @@ As soon as you are connected to an environment, the current user is available in
 The scheme used http://schemas.powershell.ActionFlow.UserCredential.alegri.eu
 
 ### Example XML
-![image](https://cloud.githubusercontent.com/assets/6292190/21577294/4950b7c8-cf56-11e6-8ef5-54d903fbe2ad.png)
+![image](https://github.com/Campergue/Alegri.ActionPack.SharePoint.Environment.Powershell/blob/master/AlegriActionPackSharePointEnvironment/AlegriActionPackSharePointEnvironment/Documentation/ExampleUserCredential.png)
 
 ### UserCredentialConfiguration
 You can define different UserCredential here.
