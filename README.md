@@ -14,7 +14,7 @@ Wenn Sie die Abhängigkeit nicht möchten, könnten Sie theoretisch die Funktionen 
 
 # Aktionen im Paket
 Folgende Aktionen stehen Ihnen zur Verfügung.
-
+ 
 | Aktion | Beschreibung |
 | --- | --- |
 | AP_SPEnvironment_Init | Es werden die Umgebungen und User Anmeldeinformationen in die Sitzung geladen |
@@ -41,7 +41,7 @@ Sobald Sie sich mit einer Umgebung Verbunden haben steht Ihnen die aktuelle Umge
 Das verwendete Schema http://schemas.powershell.ActionFlow.Environment.alegri.eu
 
 ### Beispiel XML
-![image](https://cloud.githubusercontent.com/assets/6292190/21577249/8abb2a06-cf54-11e6-8af8-94c0579d4001.png)
+![image](https://cloud.githubusercontent.com/assets/6292190/21587518/a26184f4-d0dd-11e6-9470-01e06e94a6a6.png)
 
 ### EnvironmentConfiguration
 Sie können hier die verschiedene Umgebungen definieren.
@@ -67,7 +67,7 @@ Sobald Sie sich mit einer Umgebung Verbunden haben steht Ihnen der aktuelle User
 Das verwendete Schema http://schemas.powershell.ActionFlow.UserCredential.alegri.eu
 
 ### Beispiel XML
-![image](https://cloud.githubusercontent.com/assets/6292190/21587518/a26184f4-d0dd-11e6-9470-01e06e94a6a6.png)
+![image](https://github.com/Campergue/Alegri.ActionPack.SharePoint.Environment.Powershell/blob/master/AlegriActionPackSharePointEnvironment/AlegriActionPackSharePointEnvironment/Documentation/BeispielUmgebungXML.png)
 
 ### UserCredentialConfiguration
 Sie können hier die verschiedene UserCredential definieren.
