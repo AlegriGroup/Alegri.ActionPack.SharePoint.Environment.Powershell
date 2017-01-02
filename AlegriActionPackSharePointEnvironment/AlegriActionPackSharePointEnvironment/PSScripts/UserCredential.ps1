@@ -16,7 +16,7 @@ Dann werden alle UserCredential in die Global:XmlConfigUserCredential zugewiesen
 The path where the UserCredential XML is located
 Der Pfad wo sich die UserCredential XML befindet
 #>
-function Load-UserCredentialsInSession
+function Load-AP_SPEnvironment_UserCredentialsInSession
 {
     [CmdletBinding()]
     param
@@ -26,7 +26,7 @@ function Load-UserCredentialsInSession
 	)
     Begin
     {
-        Write-Verbose "Start Load-UserCredentialsInSession"  
+        Write-Verbose "Start Load-AP_SPEnvironment_UserCredentialsInSession"  
     }
     Process
     {
@@ -40,14 +40,14 @@ function Load-UserCredentialsInSession
 		} 
 		else 
 		{
-			$Global:XmlConfigUserCredential = $users
+			$Global:AP_SPEnvironment_XmlConfigUserCredential = $users
 			Write-Host "There are Found $($users.Count) UserCredential and was loaded successfully" -ForegroundColor Green
 		}
 		
     }
     End
     {
-		Write-Verbose "End Load-UserCredentialsInSession"  
+		Write-Verbose "End Load-AP_SPEnvironment_UserCredentialsInSession"  
     }
 }
 
@@ -61,7 +61,7 @@ Aus dem in der Sitzung bekannte User Anmeldeinformationen, wird der übergebene U
 .PARAMETER nameFromUserCredential
 The Name from the UserCredential 
 #>
-function Set-CurrentUserFromCredentialsInSession
+function Set-AP_SPEnvironment_CurrentUserFromCredentialsInSession
 {
     [CmdletBinding()]
     param
@@ -71,11 +71,11 @@ function Set-CurrentUserFromCredentialsInSession
 	)
     Begin
     {
-        Write-Verbose "Start Set-CurrentUserFromCredentialsInSession"  
+        Write-Verbose "Start Set-AP_SPEnvironment_CurrentUserFromCredentialsInSession"  
     }
     Process
     {
-		$user = $Global:XmlConfigUserCredential |  Where-Object { $_.CredentialName -eq $nameFromUserCredential }
+		$user = $Global:AP_SPEnvironment_XmlConfigUserCredential |  Where-Object { $_.CredentialName -eq $nameFromUserCredential }
 
 		if($user -eq $null)
 		{
@@ -83,17 +83,17 @@ function Set-CurrentUserFromCredentialsInSession
 		} 
 		else 
 		{
-			$Global:XmlCurrentUserCredential = $user
+			$Global:AP_SPEnvironment_XmlCurrentUserCredential = $user
 			Write-Host "The UserCredential $($nameFromUserCredential) was now the Current UserCredential" -ForegroundColor Green
 		}		
     }
     End
     {
-		Write-Verbose "End Set-CurrentUserFromCredentialsInSession"  
+		Write-Verbose "End Set-AP_SPEnvironment_CurrentUserFromCredentialsInSession"  
     }
 }
 
-function Watch-UserPassword
+function Watch-AP_SPEnvironment_UserPassword
 {
 	<# 
 	.SYNOPSIS
@@ -105,31 +105,31 @@ function Watch-UserPassword
 	param()
 	begin
 	{
-		Write-Verbose "Check-UserPassword start"
+		Write-Verbose "Watch-AP_SPEnvironment_UserPassword start"
 	}
 	process
 	{
-		$fileName = Get-ALG_GetFileNameForCredential
+		$fileName = Get-AP_SPEnvironment_GetFileNameForCredential
 
 		try 
 		{
 			$content = Get-Content $fileName -ErrorAction Stop #System
-			$Global:XmlCurrentUserCredential.SetAttribute("SecurePassword", $content);
+			$Global:AP_SPEnvironment_XmlCurrentUserCredential.SetAttribute("SecurePassword", $content);
 			Write-Host "Password successfully detected." -ForegroundColor Green
 		}
 		catch
 		{
 			read-host -assecurestring | convertfrom-securestring | out-file $fileName
-			Watch-UserPassword
+			Watch-AP_SPEnvironment_UserPassword
 		}			
 	}
 	end
 	{
-		Write-Verbose "Check-UserPassword end"
+		Write-Verbose "Watch-AP_SPEnvironment_UserPassword end"
 	}
 }
 
-function Get-ALG_GetFileNameForCredential
+function Get-AP_SPEnvironment_GetFileNameForCredential
 {
 	<# 
 	.SYNOPSIS
@@ -142,19 +142,19 @@ function Get-ALG_GetFileNameForCredential
 	)
 	begin
 	{
-		Write-Verbose "Get-ALG_GetFileNameForCredential begin"
+		Write-Verbose "Get-AP_SPEnvironment_GetFileNameForCredential begin"
 	}
 	process
 	{
-		return $Global:ActionPackSPEnvironmentStandardPathUserCredential + "\" + $Global:XmlCurrentUserCredential.CredentialName + "_" + $Global:XmlCurrentUserCredential.UserName + ".txt"
+		return $Global:AP_SPEnvironment_Folder_UserCredential + "\" + $Global:AP_SPEnvironment_XmlCurrentUserCredential.CredentialName + "_" + $Global:AP_SPEnvironment_XmlCurrentUserCredential.UserName + ".txt"
 	}
 	end
 	{
-		Write-Verbose "Get-ALG_GetFileNameForCredential end"
+		Write-Verbose "Get-AP_SPEnvironment_GetFileNameForCredential end"
 	}
 }
 
-function Get-ALG_CredentialFromUserCredential
+function Get-AP_SPEnvironment_CredentialFromUserCredential
 {
     <#
     .SYNOPSIS
@@ -176,7 +176,7 @@ function Get-ALG_CredentialFromUserCredential
     )
     begin
     {
-        Write-Verbose "Get-ALG_CredentialFromUserCredential begin"
+        Write-Verbose "Get-AP_SPEnvironment_CredentialFromUserCredential begin"
     }
     process
     {
@@ -189,6 +189,6 @@ function Get-ALG_CredentialFromUserCredential
     }
     end
     {
-        Write-Verbose "Get-ALG_CredentialFromUserCredential end"
+        Write-Verbose "Get-AP_SPEnvironment_CredentialFromUserCredential end"
     }    
 }

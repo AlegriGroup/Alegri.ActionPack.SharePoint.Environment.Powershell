@@ -1,6 +1,6 @@
 # Alegri.ActionPack.SharePoint.Environment.Powershell
 Ein Aktionspaket für das Verbinden und Initialisieren einer SharePoint Umgebung. Sie können es mit dem [Action Flow tool](https://github.com/Campergue/Alegri.ActionFlow.PowerShell.Commands) verwenden.
-Die Aktionen sollen Ihnen das Verbinden mit verschiedene Umgebung mit verschiedene User erleichtern. Nach der Verbindung mit der Umgebung wird die Umgebung entsprechend geladen und stehen als Globale Werte
+Das Aktionspaket soll Ihnen das Verbinden mit verschiedene Umgebung mit verschiedene User erleichtern. Nach der Verbindung mit der Umgebung wird die Umgebung entsprechend geladen und stehen als Globale Werte
 in der Powershell Sitzung zur Verfügung. Die entsprechenden Passwörter werden Machinenbezogen verschlüsselt in einer Textdatei gespeichert. 
 
 # Abhängigkeiten
@@ -35,8 +35,8 @@ Es werden die Umgebungen und User Anmeldeinformationen in die Sitzung geladen
 | pathXMLUserCredential | Die Pfadangabe zu der User Anmeldeinformation XML. | required |
 
 ## Umgebung XML
-Sie können hier ihre verschiedene Umgebungen hinterlegen. Alle Umgebungen stehen Ihnen nach der Initialisierung in der Variable $Global:XmlConfigEnvironment zur Verfügung.
-Sobald Sie sich mit einer Umgebung Verbunden haben steht Ihnen die aktuelle Umgebung in der Variable $Global:XmlCurrentEnvironment zur Verfügung.
+Sie können hier ihre verschiedene Umgebungen hinterlegen. Alle Umgebungen stehen Ihnen nach der Initialisierung in der Variable $Global:AP_SPEnvironment_XmlConfigEnvironment zur Verfügung.
+Sobald Sie sich mit einer Umgebung Verbunden haben steht Ihnen die aktuelle Umgebung in der Variable $Global:AP_SPEnvironment_XmlCurrentEnvironment  zur Verfügung.
 
 Das verwendete Schema http://schemas.powershell.ActionFlow.Environment.alegri.eu
 
@@ -61,13 +61,13 @@ Sie können hier die verschiedene Umgebungen definieren.
 | SharePointVersion |  Es gibt zwei SharePoint Versionen 15 und 16. Bitte geben Sie von der Umgebung die korrekte Version an. Diese wird benötigt damit Pages bzw. WebParts in verschiedene Versionen verwendenbar sind. | required |
 
 ## User Anmeldeinformation XML
-Sie können hier ihre verschiedene User Anmeldeinformation hinterlegen. Alle User Anmeldeinformationen stehen Ihnen nach der Initialisierung in der Variable $Global:XmlConfigUserCredential zur Verfügung.
-Sobald Sie sich mit einer Umgebung Verbunden haben steht Ihnen der aktuelle User in der Variable $Global:XmlCurrentUserCredential zur Verfügung.
+Sie können hier ihre verschiedene User Anmeldeinformation hinterlegen. Alle User Anmeldeinformationen stehen Ihnen nach der Initialisierung in der Variable $Global:AP_SPEnvironment_XmlConfigUserCredential zur Verfügung.
+Sobald Sie sich mit einer Umgebung Verbunden haben steht Ihnen der aktuelle User in der Variable $Global:AP_SPEnvironment_XmlCurrentUserCredential zur Verfügung.
 
 Das verwendete Schema http://schemas.powershell.ActionFlow.UserCredential.alegri.eu
 
 ### Beispiel XML
-![image](https://cloud.githubusercontent.com/assets/6292190/21577294/4950b7c8-cf56-11e6-8ef5-54d903fbe2ad.png)
+![image](https://cloud.githubusercontent.com/assets/6292190/21587518/a26184f4-d0dd-11e6-9470-01e06e94a6a6.png)
 
 ### UserCredentialConfiguration
 Sie können hier die verschiedene UserCredential definieren.
@@ -93,7 +93,7 @@ Verbindet sich mit der Umgebung
 | LoadAllWebs | Wenn Sie den Wert auf True setzen, werden alle Webs von der kompletten SiteCollection geladen. | required |
 
 ### Geladene Webs
-Sie finden die geladen Webs in der Variable $Global:Webs als System.Array. 
+Sie finden die geladen Webs in der Variable $Global:AP_SPEnvironment_Webs als System.Array. 
 
 Der Inhalt ist vom Typ System.Object mit folgenden Eigenschaften
 
@@ -113,7 +113,7 @@ Trennt die Verbindung mit der Umgebung
 | EnvironmentName | Der Name der Umgebung [Designation aus Environment]| required |
 
 # AP_SPEnvironment_InitWeb 
-Die angegebene Umgebung wird zur aktuellen Umgebung und steht Ihnen in der Variable $Global:CurrentWeb zur Verfügung.
+Die angegebene Umgebung wird zur aktuellen Umgebung und steht Ihnen in der Variable $Global:AP_SPEnvironment_CurrentWeb zur Verfügung.
 
 ## Attribute
 | Attribute | Beschreibung | Verwendung |
@@ -124,7 +124,7 @@ Die angegebene Umgebung wird zur aktuellen Umgebung und steht Ihnen in der Varia
 
 # Alegri.ActionPack.SharePoint.Environment.Powershell
 An action pack for connecting and initializing a SharePoint environment. You can use it with the [Action Flow tool](https://github.com/Campergue/Alegri.ActionFlow.PowerShell.Commands).
-The actions are designed to help you connect to different environments with different users. After connecting to the environment, the environment is loaded accordingly and is called Global Values
+The Action Packed are designed to help you connect to different environments with different users. After connecting to the environment, the environment is loaded accordingly and is called Global Values
 In the Powershell session. The corresponding passwords are stored encrypted in a text file.
 
 # Dependencies
@@ -159,8 +159,8 @@ The environments and user credentials are loaded into the session
 | pathXMLUserCredential | The Path to the XML UserCredential. | required |
 
 ## Environment XML
-You can deposit their different environments here. After the initialization, all environments are available in the $Global:XmlConfigEnvironment variable.
-Once you are connected to an environment, the current environment is available in the $Global:XmlCurrentEnvironment variable.
+You can deposit their different environments here. After the initialization, all environments are available in the $Global:AP_SPEnvironment_XmlConfigEnvironment variable.
+Once you are connected to an environment, the current environment is available in the $Global:AP_SPEnvironment_XmlCurrentEnvironment variable.
 
 The scheme used http://schemas.powershell.ActionFlow.Environment.alegri.eu
 
@@ -185,8 +185,8 @@ You can define different environments here.
 | SharePointVersion |  There are two SharePoint versions 15 and 16. Please specify the correct version from the environment.This is required for pages or WebParts to be used in different versions. | required |
 
 ## User Credential XML
-You can deposit their different user credentials here. All user credentials are available after the initialization of the variable $global:XmlConfigUserCredential available.
-As soon as you are connected to an environment, the current user is available in the variable $Global:XmlCurrentUserCredential.
+You can deposit their different user credentials here. All user credentials are available after the initialization of the variable $Global:AP_SPEnvironment_XmlConfigUserCredential available.
+As soon as you are connected to an environment, the current user is available in the variable $Global:AP_SPEnvironment_XmlCurrentUserCredential.
 
 The scheme used http://schemas.powershell.ActionFlow.UserCredential.alegri.eu
 
@@ -217,7 +217,7 @@ This Connects with the Environment
 | LoadAllWebs | If you set the value to True, all Webs will be loaded by the complete SiteCollection. | required |
 
 ### Loaded Webs
-You will find the loaded webs in the $Global:Webs variable as System.Array. 
+You will find the loaded webs in the $Global:AP_SPEnvironment_Webs variable as System.Array. 
 
 The content is of type System.Object with the following properties
 
@@ -239,7 +239,7 @@ Disconnects the connection with the environment
 # AP_SPEnvironment_InitWeb 
 The specified environment becomes the current environment 
 
-This is available to you in the $Global:CurrentWeb variable.
+This is available to you in the $Global:AP_SPEnvironment_CurrentWeb variable.
 
 ## Attributes
 | Attributes | Description | Use |

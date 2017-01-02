@@ -2,14 +2,14 @@
 # DependentFunction.ps1
 #
 
-function PnPFunc_GetSPOContext
+function Use-AP_SPEnvironment_PnP_GetSPOContext
 {
     [CmdletBinding()]
     param
     ()
     Begin
     {
-         Write-Verbose "PnPFunc_GetSPOContext Begin" 
+         Write-Verbose "Use-AP_SPEnvironment_PnP_GetSPOContext Begin" 
     }
     Process
     {
@@ -17,18 +17,18 @@ function PnPFunc_GetSPOContext
     }
     End
     {
-		Write-Verbose "PnPFunc_GetSPOContext End"
+		Write-Verbose "Use-AP_SPEnvironment_PnP_GetSPOContext End"
     }
 }
 
-function PnPFunc_Get-SPOWeb
+function Use-AP_SPEnvironment_PnP_Get-SPOWeb
 {
     [CmdletBinding()]
     param
     ()
     Begin
     {
-         Write-Verbose "PnPFunc_Get-SPOWeb Begin" 
+         Write-Verbose "Use-AP_SPEnvironment_PnP_Get-SPOWeb Begin" 
     }
     Process
     {
@@ -36,18 +36,18 @@ function PnPFunc_Get-SPOWeb
     }
     End
     {
-		Write-Verbose "PnPFunc_Get-SPOWeb End"
+		Write-Verbose "Use-AP_SPEnvironment_PnP_Get-SPOWeb End"
     }
 }
 
-function PnPFunc_Get-PnPSite
+function Use-AP_SPEnvironment_PnP_Get-PnPSite
 {
     [CmdletBinding()]
     param
     ()
     Begin
     {
-         Write-Verbose "PnPFunc_Get-PnPSite Begin" 
+         Write-Verbose "Use-AP_SPEnvironment_PnP_Get-PnPSite Begin" 
     }
     Process
     {
@@ -55,11 +55,11 @@ function PnPFunc_Get-PnPSite
     }
     End
     {
-		Write-Verbose "PnPFunc_Get-PnPSite End"
+		Write-Verbose "Use-AP_SPEnvironment_PnP_Get-PnPSite End"
     }
 }
 
-function PnPFunc_Connect-SPOnline
+function Use-AP_SPEnvironment_PnP_Connect-SPOnline
 {
     [CmdletBinding()]
     param
@@ -71,7 +71,7 @@ function PnPFunc_Connect-SPOnline
 	)
     Begin
     {
-		Write-Verbose "PnPFunc_Connect-SPOnline Begin"
+		Write-Verbose "Use-AP_SPEnvironment_PnP_Connect-SPOnline Begin"
     }
     Process
     {
@@ -79,18 +79,18 @@ function PnPFunc_Connect-SPOnline
     }
     End
     {
-		Write-Verbose "PnPFunc_Connect-SPOnline End"
+		Write-Verbose "Use-AP_SPEnvironment_PnP_Connect-SPOnline End"
     }
 }
 
-function PnPFunc_Disconnect-SPOnline
+function Use-AP_SPEnvironment_PnP_Disconnect-SPOnline
 {
     [CmdletBinding()]
     param
     ()
     Begin
     {
-         Write-Verbose "PnPFunc_Disconnect-SPOnline Begin" 
+         Write-Verbose "Use-AP_SPEnvironment_PnP_Disconnect-SPOnline Begin" 
     }
     Process
     {
@@ -98,11 +98,11 @@ function PnPFunc_Disconnect-SPOnline
     }
     End
     {
-		Write-Verbose "PnPFunc_Disconnect-SPOnline End"
+		Write-Verbose "Use-AP_SPEnvironment_PnP_Disconnect-SPOnline End"
     }
 }
 
-function PnPFunc_Get-PnPSubWebs
+function Use-AP_SPEnvironment_PnP_Get-PnPSubWebs
 {
     [CmdletBinding()]
     param
@@ -112,7 +112,7 @@ function PnPFunc_Get-PnPSubWebs
 	)
     Begin
     {
-         Write-Verbose "PnPFunc_Get-PnPSubWebs Begin" 
+         Write-Verbose "Use-AP_SPEnvironment_PnP_Get-PnPSubWebs Begin" 
     }
     Process
     {
@@ -120,11 +120,11 @@ function PnPFunc_Get-PnPSubWebs
     }
     End
     {
-		Write-Verbose "PnPFunc_Get-PnPSubWebs End"
+		Write-Verbose "Use-AP_SPEnvironment_PnP_Get-PnPSubWebs End"
     }
 }
 
-function AlegriModulFunc_Connect-SPOnlineADFS
+function Use-AP_SPEnvironment_AlegriModul_Connect-SPOnlineADFS
 {
     [CmdletBinding()]
     param
@@ -135,7 +135,7 @@ function AlegriModulFunc_Connect-SPOnlineADFS
 	)
     Begin
     {
-		Write-Verbose "AlegriModulFunc_Connect-SPOnlineADFS Begin"
+		Write-Verbose "Use-AP_SPEnvironment_AlegriModul_Connect-SPOnlineADFS Begin"
     }
     Process
     {
@@ -147,18 +147,18 @@ function AlegriModulFunc_Connect-SPOnlineADFS
     }
     End
     {
-		Write-Verbose "AlegriModulFunc_Connect-SPOnlineADFS End"
+		Write-Verbose "Use-AP_SPEnvironment_AlegriModul_Connect-SPOnlineADFS End"
     }
 }
 
-function AlegriModulFunc_Disconnect-SPOnlineADFS 
+function Use-AP_SPEnvironment_AlegriModul_Disconnect-SPOnlineADFS
 {
     [CmdletBinding()]
     param
     ()
     Begin
     {
-		Write-Verbose "AlegriModulFunc_Disconnect-SPOnlineADFS Begin"
+		Write-Verbose "Use-AP_SPEnvironment_AlegriModul_Disconnect-SPOnlineADFSBegin"
     }
     Process
     {
@@ -166,6 +166,6 @@ function AlegriModulFunc_Disconnect-SPOnlineADFS
     }
     End
     {
-		Write-Verbose "AlegriModulFunc_Disconnect-SPOnlineADFS End"
+		Write-Verbose "Use-AP_SPEnvironment_AlegriModul_Disconnect-SPOnlineADFSEnd"
     }
 }

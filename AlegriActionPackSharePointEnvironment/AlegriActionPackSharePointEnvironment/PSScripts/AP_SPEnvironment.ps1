@@ -2,16 +2,19 @@
 # ActionPackageTemplate.ps1
 #
 
-# All Global Variable where use in this Package
-$Global:ActionPackSPEnvironmentStandardPathUserCredential = "$env:USERPROFILE\Documents\ActionFlow\ActionPackSPEnvironment\UserCredential"
-$Global:XmlConfigUserCredential = $null
-$Global:XmlConfigEnvironment = $null
-$Global:XmlCurrentEnvironment = $null
-$Global:XmlCurrentUserCredential = $null
-$Global:RootContext = $null
-$Global:RootWeb = $null
-$Global:RootSite = $null
-$Global:Webs = $null
+# Standard Folder
+$Global:AP_SPEnvironment_Folder_UserCredential = "$env:USERPROFILE\Documents\ActionFlow\AP_SPEnvironment\UserCredential"
+
+# All Global Variable where use in this Package and is released from the outside for use
+$Global:AP_SPEnvironment_XmlConfigUserCredential = $null
+$Global:AP_SPEnvironment_XmlConfigEnvironment = $null
+$Global:AP_SPEnvironment_XmlCurrentEnvironment = $null
+$Global:AP_SPEnvironment_XmlCurrentUserCredential = $null
+$Global:AP_SPEnvironment_RootContext = $null
+$Global:AP_SPEnvironment_RootWeb = $null
+$Global:AP_SPEnvironment_RootSite = $null
+$Global:AP_SPEnvironment_Webs = $null
+$Global:AP_SPEnvironment_CurrentWeb = $null
 
 ###########################################################################################################
 
@@ -21,7 +24,7 @@ $Global:Webs = $null
 . "$PSScriptRoot\Environment.ps1"
 . "$PSScriptRoot\UserCredential.ps1"
 
-# You should register a new function in the two lower functions.
+# You should register a new function in the two Lower functions.
 # Sie sollten eine neue Funktion in den beiden unteren Funktionen registrieren. 
 
 <#.Synopsis
@@ -32,7 +35,7 @@ Hier wird geprüft ob es die Aktion gibt
 The name of the action
 Der Name der Aktion
 #>
-function Find-ActionInActionPackageSPEnvironment
+function Find-ActionInAP_SPEnvironment
 {
     [CmdletBinding()]
     [OutputType([bool])]
@@ -43,7 +46,7 @@ function Find-ActionInActionPackageSPEnvironment
 	)
     Begin
     {
-		Write-Verbose "Start Find-ActionInActionPackageSPEnvironment"     
+		Write-Verbose "Start Find-ActionInAP_SPEnvironment"     
     }
     Process
     {
@@ -60,7 +63,7 @@ function Find-ActionInActionPackageSPEnvironment
     }
     End
     {
-		Write-Verbose "End Find-ActionInActionPackageSPEnvironment"
+		Write-Verbose "End Find-ActionInAP_SPEnvironment"
     }
 }
 
@@ -75,7 +78,7 @@ Hier wird die entsprechende Aktion angestossen in dem die dazugehörige Funktion 
 An XML element <alg: ActionObject>
 Ein XML Element <alg:ActionObject>
 #>
-function Start-ActionFromActionPackageSPEnvironment
+function Start-ActionFromAP_SPEnvironment
 {
     [CmdletBinding()]
     param
@@ -85,7 +88,7 @@ function Start-ActionFromActionPackageSPEnvironment
 	)
     Begin
     {
-        Write-Verbose "Start Start-ActionFromActionPackageSPEnvironment"
+        Write-Verbose "Start Start-ActionFromAP_SPEnvironment"
     }
     Process
     {
@@ -104,44 +107,46 @@ function Start-ActionFromActionPackageSPEnvironment
     }
     End
     {
-		Write-Verbose "End Start-ActionFromActionPackageSPEnvironment"
+		Write-Verbose "End Start-ActionFromAP_SPEnvironment"
     }
 }
 
-function Check-ExistStandardFolder
+function Check-ExistFolderInAP_SPEnvironment
 {
     <#
     .SYNOPSIS
     Check if the StandardFolder Exists
+	Prüft ob die Standard Ordner vorhanden sind.
     .DESCRIPTION
-    Beim Laden des Moduls wird überprüft ob die Standardordner vorhanden sind.
-	Falls nicht werden die Ordner entsprechend angelegt.
+	When the module is loaded, it is checked whether the default folders are available. If not, the folders are created accordingly.
+    Beim Laden des Moduls wird überprüft ob die Standardordner vorhanden sind. Falls nicht werden die Ordner entsprechend angelegt.
     #>
     begin
     {
-        Write-Verbose "Begin Check-ExistStandardFolder"
+        Write-Verbose "Begin Check-ExistFolderInAP_SPEnvironment"
     }
     process
     {
-        #Prüfe ob Standard-Pfade existieren
-		$check7 = Test-Path $Global:ActionPackSPEnvironmentStandardPathUserCredential
+        #Check if Standard folders exist / Prüfe ob Standard Ordner existieren
+		$folder1 = $Global:AP_SPEnvironment_Folder_UserCredential
+		$checkFolder1 = Test-Path $folder1
 
-        if (!$check7)
+        if (!$checkFolder1)
         {
-            Write-Host "Standard-Folder from Action Pack SharePoint Environment must be created" -ForegroundColor Magenta
+            Write-Host "Standard-Folder from Action Pack $($Global:ActionPackageName) must be created" -ForegroundColor Magenta
 
-			if(!(Test-Path $Global:ActionPackSPEnvironmentStandardPathUserCredential)) #System
+			if(!(Test-Path $folder1)) #System
 			{
-                New-Item "$Global:ActionPackSPEnvironmentStandardPathUserCredential" -ItemType directory | Out-Null   #System
-                Write-Host "$Global:ActionPackSPEnvironmentStandardPathUserCredential are created" -ForegroundColor Green
+                New-Item "$folder1" -ItemType directory | Out-Null   #System
+                Write-Host "$folder1 are created" -ForegroundColor Green
             }
         }
 		else {
-			Write-Host "Standard-Folder from Action Pack SharePoint Environment are exist" -ForegroundColor Green
+			Write-Host "Standard-Folder from Action Pack $($Global:ActionPackageName) are exist" -ForegroundColor Green
 		}
     }
     end
     {
-        Write-Verbose "End Check-ExistStandardFolder"
+        Write-Verbose "End Check-ExistFolderInAP_SPEnvironment"
     }    
 }

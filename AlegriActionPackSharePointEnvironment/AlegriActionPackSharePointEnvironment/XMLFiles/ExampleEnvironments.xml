@@ -4,7 +4,7 @@
                    ConnectTyp="Teamsite" 
                    Credential="dev_marcel" 
                    SharePointVersion="16" 
-                   SiteRelUrl="/sites/pocVFPos/" 
-                   SiteUrl="https://pcampergue.sharepoint.com/sites/pocVFPos/" 
+                   SiteRelUrl="/sites/AP_Testsite/" 
+                   SiteUrl="https://pcampergue.sharepoint.com/sites/AP_Testsite" 
   />
 </alg:EnvironmentConfiguration>

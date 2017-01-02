@@ -23,19 +23,9 @@ function Start-AP_SPEnvironment_Init
     }
     Process
     {	
-		#Load Environments		
-		if($xmlActionObject.pathXMLEnvironment)	{ 
-			Load-EnvironmentsInSession -pfadToXML $xmlActionObject.pathXMLEnvironment 
-		}else{ 
-			Load-EnvironmentsInSession -pfadToXML $Global:EnvironmentXMLFile
-		}
+		Load-AP_SPEnvironment_EnvironmentsInSession -pfadToXML $xmlActionObject.pathXMLEnvironment 
 
-		#Load UserCredential
-		if($xmlActionObject.pathXMLUserCredential) { 
-			Load-UserCredentialsInSession -pfadToXML $xmlActionObject.pathXMLUserCredential
-		}else{	
-			Load-UserCredentialsInSession -pfadToXML $Global:UserCredentialXMLFile 
-		}		
+		Load-AP_SPEnvironment_UserCredentialsInSession -pfadToXML $xmlActionObject.pathXMLUserCredential	
     }
     End
     {
@@ -66,29 +56,24 @@ function Start-AP_SPEnvironment_Connect
     {
 		$envName = $xmlActionObject.EnvironmentName
 			
-		#Set Current Environment
-		Set-CurrentEnvironmentFromEnvironmentsInSession -nameFromEnvironment $envName
+		Set-AP_SPEnvironment_CurrentEnvFromEnvsInSession -nameFromEnvironment $envName
 
-		#Set Current User
-		if($xmlActionObject.UserCredentialName)	{ 
-			Set-CurrentUserFromCredentialsInSession -nameFromUserCredential $xmlActionObject.UserCredentialName 
-		}else{ 
-			Set-CurrentUserFromCredentialsInSession -nameFromUserCredential $Global:XmlCurrentEnvironment.Credential 
-		}
+		if($xmlActionObject.UserCredentialName)	{ Set-AP_SPEnvironment_CurrentUserFromCredentialsInSession -nameFromUserCredential $xmlActionObject.UserCredentialName 
+		} else { 	Set-AP_SPEnvironment_CurrentUserFromCredentialsInSession -nameFromUserCredential $Global:AP_SPEnvironment_XmlCurrentEnvironment.Credential }
 				
-		Watch-UserPassword 
+		Watch-AP_SPEnvironment_UserPassword 
 				
 		#Hole Credential vom User
-		$cred = Get-ALG_CredentialFromUserCredential -XmlUserCredential $Global:XmlCurrentUserCredential #UserCredential
+		$cred = Get-AP_SPEnvironment_CredentialFromUserCredential -XmlUserCredential $Global:AP_SPEnvironment_XmlCurrentUserCredential #UserCredential
 				
 		#Verbindung mit der Umgebung
-		Connect-CurrentEnvironment -siteUrl $Global:XmlCurrentEnvironment.SiteUrl -siteCredentials $cred -siteConnectTyp $Global:XmlCurrentEnvironment.ConnectTyp
+		Connect-AP_SPEnvironment_CurrentEnv -siteUrl $Global:AP_SPEnvironment_XmlCurrentEnvironment.SiteUrl -siteCredentials $cred -siteConnectTyp $Global:AP_SPEnvironment_XmlCurrentEnvironment.ConnectTyp
 
 		#Load the Webs
 		$loadAllWebs = $false
 		if($xmlActionObject.LoadAllWebs -eq "true") { $loadAllWebs = $true }
 		
-		Load-WebsFromCurrentEnvironment -loadAllWebs $loadAllWebs
+		Load-AP_SPEnvironment_WebsFromCurrentEnv -loadAllWebs $loadAllWebs
 
     }
     End
@@ -118,7 +103,7 @@ function Start-AP_SPEnvironment_Disconnect
     }
     Process
     {
-        Disconnect-CurrentEnvironment
+        Disconnect-AP_SPEnvironment_CurrentEnv
     }
     End
     {
@@ -148,7 +133,7 @@ function Start-AP_SPEnvironment_InitWeb
     Process
     {
         $siteTitle = $xmlActionObject.SiteTitle
-		Set-CurrentWebFromGlobalWebs -SiteTitle $siteTitle
+		Set-AP_SPEnvironment_CurrentWebFromGlobalWebs -SiteTitle $siteTitle
     }
     End
     {
@@ -156,7 +141,7 @@ function Start-AP_SPEnvironment_InitWeb
     }
 }
 
-function Load-EnvironmentsInSession
+function Load-AP_SPEnvironment_EnvironmentsInSession
 {
 	<#
 	.Synopsis
@@ -180,7 +165,7 @@ function Load-EnvironmentsInSession
 	)
     Begin
     {
-        Write-Verbose "Start Load-EnvironmentsInSession"  
+        Write-Verbose "Start Load-AP_SPEnvironment_EnvironmentsInSession"  
     }
     Process
     {
@@ -192,20 +177,21 @@ function Load-EnvironmentsInSession
 		{
 			Write-Error "It was no Environment found in the Environment XML File $($pfadToXML)"
 		}else{
-			$Global:XmlConfigEnvironment = $env
+			$Global:AP_SPEnvironment_XmlConfigEnvironment = $env
 			Write-Host "There are Found $($env.Count) Environments and was loaded successfully" -ForegroundColor Green
 		}
 		
     }
     End
     {
-		Write-Verbose "End Load-EnvironmentsInSession"  
+		Write-Verbose "End Load-AP_SPEnvironment_EnvironmentsInSession"  
     }
 }
 
 <#
 .Synopsis
 Set current environment
+Aktuelle Umgebung einstellen
 .DESCRIPTION
 It is read from the environments known in the session, the given environment and placed on the current environment
 
@@ -214,7 +200,7 @@ Es wird aus den in der Session bekannten Umgebungen, die übergebene Umgebung aus
 The Name from Environment
 Der Name der Umgebung
 #>
-function Set-CurrentEnvironmentFromEnvironmentsInSession
+function Set-AP_SPEnvironment_CurrentEnvFromEnvsInSession
 {
     [CmdletBinding()]
 
@@ -225,38 +211,42 @@ function Set-CurrentEnvironmentFromEnvironmentsInSession
 	)
     Begin
     {
-        Write-Verbose "Start Set-CurrentEnvironmentFromEnvironmentsInSession"  
+        Write-Verbose "Start Set-AP_SPEnvironment_CurrentEnvFromEnvsInSession"  
     }
     Process
     {
-		$env = $Global:XmlConfigEnvironment |  Where-Object {$_.Designation -eq $nameFromEnvironment }
+		$env = $Global:AP_SPEnvironment_XmlConfigEnvironment |  Where-Object {$_.Designation -eq $nameFromEnvironment }
 		if($env -eq $null)
 		{
 			Write-Error "The Environment was not found"
 		} 
 		else 
 		{
-			$Global:XmlCurrentEnvironment = $env
+			$Global:AP_SPEnvironment_XmlCurrentEnvironment = $env
 			Write-Host "The Environment $($nameFromEnvironment) was now the Current Environemnt" -ForegroundColor Green
 		}		
     }
     End
     {
-		Write-Verbose "End Set-CurrentEnvironmentFromEnvironmentsInSession"  
+		Write-Verbose "End Set-AP_SPEnvironment_CurrentEnvFromEnvsInSession"  
     }
 }
 
-function Connect-CurrentEnvironment
+function Connect-AP_SPEnvironment_CurrentEnv
 {
     <#
     .SYNOPSIS
+	Makes the connection to the side
     Stellt die Verbindung zur Seite her
     .DESCRIPTION
-    eine ausführlichere Erläuterung der Aufgabe eines Skripts bzw. einer Funktion.
+    Makes the connection to the side
+    Stellt die Verbindung zur Seite her
     .PARAMETER siteUrl 
-    Der vollständige Pfad zur Seite z.B. https://daimler/sites/03999/TestSubsite/
+	The full URL to the page, e.g. Https: // pcampergue / sites / test / TestSubsite /
+    Die vollständige URL zur Seite z.B. https://pcampergue/sites/test/TestSubsite/
     .PARAMETER siteCredentials
-    Bitte geben Sie den Namen vom hinterlegten Windows Creditial
+	Please enter the name of the System.Management.Automation.PsCredential
+    Bitte geben Sie den Namen vom hinterlegten System.Management.Automation.PsCredential
     .PARAMETER siteConnectTyp
     Bei einer normal Windows Authentifizierung => Teamsite
     Bei einer ADFS Verbindung => ADFS
@@ -279,7 +269,7 @@ function Connect-CurrentEnvironment
     )
     begin
     {
-        Write-Verbose "Connect-CurrentEnvironment begin"
+        Write-Verbose "Connect-AP_SPEnvironment_CurrentEnv begin"
     }
     process
     {
@@ -288,11 +278,11 @@ function Connect-CurrentEnvironment
         {
             switch ($siteConnectTyp)
             {
-                "Teamsite" { PnPFunc_Connect-SPOnline -Url $siteUrl -Credentials $siteCredentials -ErrorAction Stop}
-                "ADFS" { AlegriModulFunc_Connect-SPOnlineADFS -Url $siteUrl -ErrorAction Stop}
+                "Teamsite" { Use-AP_SPEnvironment_PnP_Connect-SPOnline -Url $siteUrl -Credentials $siteCredentials -ErrorAction Stop}
+                "ADFS" { Use-AP_SPEnvironment_AlegriModul_Connect-SPOnlineADFS -Url $siteUrl -ErrorAction Stop}
                 "ADFS-SecurePin" 
                 { 
-                    AlegriModulFunc_Connect-SPOnlineADFS -Url $siteUrl -Use32BitMode -ErrorAction Stop
+                    Use-AP_SPEnvironment_AlegriModul_Connect-SPOnlineADFS -Url $siteUrl -Use32BitMode -ErrorAction Stop
                     $ctx = Get-SPOContext
                     $ctx.RequestTimeout = 18000000
                 }
@@ -301,9 +291,9 @@ function Connect-CurrentEnvironment
             
             Write-Host "Connect To Site ($siteUrl) successfully" -ForegroundColor Green
 
-            $Global:RootContext = PnPFunc_GetSPOContext
-			$Global:RootWeb = PnPFunc_Get-SPOWeb 
-			$Global:RootSite = PnPFunc_Get-PnPSite 
+            $Global:AP_SPEnvironment_RootContext = Use-AP_SPEnvironment_PnP_GetSPOContext
+			$Global:AP_SPEnvironment_RootWeb = Use-AP_SPEnvironment_PnP_Get-SPOWeb 
+			$Global:AP_SPEnvironment_RootSite = Use-AP_SPEnvironment_PnP_Get-PnPSite 
         }
         catch
         {
@@ -312,59 +302,62 @@ function Connect-CurrentEnvironment
     }
     end
     {
-        Write-Verbose "Connect-CurrentEnvironment end"
+        Write-Verbose "Connect-AP_SPEnvironment_CurrentEnv end"
     }    
 }
 
-function Disconnect-CurrentEnvironment
+function Disconnect-AP_SPEnvironment_CurrentEnv
 {
 	<# 
 	.SYNOPSIS
-    Schliesst die Verbindung zu SharePoint
+	Closes the connection to SharePoint
+	Schliesst die Verbindung zu SharePoint
     .DESCRIPTION
-    Es wird geprüft wie die Verbindungsart ist, danach wir die Verbindungsart spezifische Funktion
-	zum Verbindungsschliessen aufgerufen. 
+	It is checked how the connection type is, afterwards we call the connection type specific connection function.
+    Es wird geprüft wie die Verbindungsart ist, danach wir die Verbindungsart spezifische Funktion zum Verbindungsschliessen aufgerufen. 
 	#>
 	[CmdletBinding()]
 	param()
 	begin
 	{
-		Write-Verbose "Begin Disconnect-CurrentEnvironment"
+		Write-Verbose "Begin Disconnect-AP_SPEnvironment_CurrentEnv"
 	}
 	process
 	{
-		Write-Host "Disconnecting site collection $($Global:XmlCurrentEnvironment.SiteUrl)" 
+		Write-Host "Disconnecting site collection $($Global:AP_SPEnvironment_XmlCurrentEnvironment.SiteUrl)" 
 
-		if($Global:XmlCurrentEnvironment.connectTyp -eq "Teamsite")
+		if($Global:AP_SPEnvironment_XmlCurrentEnvironment.connectTyp -eq "Teamsite")
 		{
-			PnPFunc_Disconnect-SPOnline 
+			Use-AP_SPEnvironment_PnP_Disconnect-SPOnline 
 		}
-		elseif($Global:XmlCurrentEnvironment.connectTyp -eq "ADFS" -or $Global:XmlCurrentEnvironment.connectTyp -eq "ADFS-SecurePin")
+		elseif($Global:AP_SPEnvironment_XmlCurrentEnvironment.connectTyp -eq "ADFS" -or $Global:AP_SPEnvironment_XmlCurrentEnvironment.connectTyp -eq "ADFS-SecurePin")
 		{
-			AlegriModulFunc_Disconnect-SPOnlineADFS 
+			Use-AP_SPEnvironment_AlegriModul_Disconnect-SPOnlineADFS
 		}
 		else 
 		{
 			Write-Error "Unknow CurrentTyp"
 		}
 
-		$Global:RootContext = $null
-		$Global:RootWeb = $null
-		$Global:RootSite = $null
+		$Global:AP_SPEnvironment_RootContext = $null
+		$Global:AP_SPEnvironment_RootWeb = $null
+		$Global:AP_SPEnvironment_RootSite = $null
 	}
 	end
 	{
-		Write-Verbose "End Disconnect-CurrentEnvironment"
+		Write-Verbose "End Disconnect-AP_SPEnvironment_CurrentEnv"
 	}
 }
 
-function Create-CustomWebObject
+function Create-AP_SPEnvironment_CustomWebObject
 {
     <# 
 	.SYNOPSIS
+	Creates a System.Object
     Erstellt ein System.Object 	
     .DESCRIPTION
-    Erstellt ein Weboject mit drei Parametern. SiteId, XMLWeb, Web und gibt das Object zurück
+	Creates a Weboject with four parameters. Title, ParentTitle, Web, IsRoot, and returns the object
+    Erstellt ein Weboject mit vier Parametern. Title, ParentTitle, Web, IsRoot und gibt das Object zurück
     .PARAMETER Title 
 	The title of the page
     Den Title der Seite
@@ -378,6 +371,7 @@ function Create-CustomWebObject
 	Specifies whether the web is RootWeb
 	Gibt an ob es sich um das Root Web handelt
 	.OUTPUT
+	The object filled with the properties
 	Das Objekt mit den Eigeneschaften gefüllt   
 	#>
 	[CmdletBinding()]
@@ -393,7 +387,7 @@ function Create-CustomWebObject
     )
 	begin
 	{
-		Write-Verbose "Create-CustomWebObject begin"
+		Write-Verbose "Create-AP_SPEnvironment_CustomWebObject begin"
 	}
     Process
     {
@@ -406,19 +400,23 @@ function Create-CustomWebObject
     }
 	end
 	{
-		Write-Verbose "Create-CustomWebObject end"
+		Write-Verbose "Create-AP_SPEnvironment_CustomWebObject end"
 	}
 }
 
-function Load-WebsFromCurrentEnvironment
+function Load-AP_SPEnvironment_WebsFromCurrentEnv
 {
 	<# 
 	.SYNOPSIS
+	Initialize the SiteCollection
     Initialisieren der SiteCollection	
     .DESCRIPTION
-    tbd...  
+	First, a CustomWebObject is created for the root Web and assigned to the global variable $ Global: AP_SPEnvironment_Webs. If desired, the loading of the other webs is then initiated.
+    Als erstes wird für das Root Web ein CustomWebObject erzeugt und der Globalen Variable $Global:AP_SPEnvironment_Webs zugewiesen.
+	Anschließend falls gewünscht wird das Laden der anderen Webs angestossen.   
     .PARAMETER loadAllWebs 
     If you set the value to True, all Webs will be loaded by the complete SiteCollection.
+	Wenn Sie den Wert auf True setzen, werden alle Webs von der ganzen SiteCollection geladen.
 	#>
 	[CmdletBinding()]
 	param(
@@ -428,53 +426,55 @@ function Load-WebsFromCurrentEnvironment
 	)
 	begin
 	{
-		Write-Verbose "Load-WebsFromCurrentEnvironment begin"
+		Write-Verbose "Load-AP_SPEnvironment_WebsFromCurrentEnv begin"
 	}
 	process
 	{
-		Write-Host "START Load-WebsFromCurrentEnvironment..."
+		Write-Host "START Load-AP_SPEnvironment_WebsFromCurrentEnv..."
 
-		$Global:Webs = @();
+		$Global:AP_SPEnvironment_Webs = @();
 
 		#Start with Root
-		$webTitle = $Global:RootWeb.Title
-		$customWebOject = Create-CustomWebObject -Title $webTitle -ParentTitle "" -Web $Global:RootWeb -IsRoot $true
-		$Global:Webs += $customWebOject
+		$webTitle = $Global:AP_SPEnvironment_RootWeb.Title
+		$customWebOject = Create-AP_SPEnvironment_CustomWebObject -Title $webTitle -ParentTitle "" -Web $Global:AP_SPEnvironment_RootWeb -IsRoot $true
+		$Global:AP_SPEnvironment_Webs += $customWebOject
 		
 		Write-Host "Loaded $($webTitle) are successful"
         
 		if($loadAllWebs)
 		{
-			$webs = PnPFunc_Get-PnPSubWebs -Web $Global:RootWeb
+			$webs = Use-AP_SPEnvironment_PnP_Get-PnPSubWebs -Web $Global:AP_SPEnvironment_RootWeb
 
 			if($webs -ne $null) 
 			{
-				Load-ChildWebs -parentWeb $Global:RootWeb -children $webs
+				Load-AP_SPEnvironment_ChildWebs -parentWeb $Global:AP_SPEnvironment_RootWeb -children $webs
 			}
 		}
 		    
-		Write-Host "END Load-WebsFromCurrentEnvironment..." 
+		Write-Host "END Load-AP_SPEnvironment_WebsFromCurrentEnv..." 
 		Write-Host
 	}
 	end
 	{
-		Write-Verbose "Load-WebsFromCurrentEnvironment end"
+		Write-Verbose "Load-AP_SPEnvironment_WebsFromCurrentEnv end"
 	}	
 }
 
-function Load-ChildWebs
+function Load-AP_SPEnvironment_ChildWebs
 {
 	<# 
 	.SYNOPSIS
+	Initialize the subsites
     Initialisieren der Subsiten	
     .DESCRIPTION
-    Es wird versucht die Subsiten aus der XML Datei, aus dem SharePoint zu laden. 
-	Falls die Subsiten vorhanden sind wird ein WebObject erzeugt und 
-	global im Global:Webs zur Verfügung gestellt.
+	It is interacted through the whole SiteCollection, and a CustomWebObject is generated for each found Web and assigned to the Global Veriable $ Global: AP_SPEnvironment_Webs.
+    Es wird durch die ganze SiteCollection interiert und für jedes gefunde Web wird ein CustomWebObject erzeugt und der Globalen Veriable $Global:AP_SPEnvironment_Webs zugewiesen.
     .PARAMETER parentWeb 
+	The SharePoint Web Object from the parent element
     Das SharePoint Web Object vom Vater Element
-    .PARAMETER XMLWebs
-	Die Subsiten die in der Provisiong Konfigurationsdatei vorhanden sind.  
+    .PARAMETER $children
+	The Children Element
+	Die Kinder Elemente
 	#>
 	[CmdletBinding()]
 	Param(
@@ -485,7 +485,7 @@ function Load-ChildWebs
     )
 	begin
 	{
-		Write-Verbose "Load-ChildWebs begin"
+		Write-Verbose "Load-AP_SPEnvironment_ChildWebs begin"
 	}
     process
     {
@@ -493,25 +493,25 @@ function Load-ChildWebs
 
         foreach($subSite in $children)
         {   
-			$Global:Webs += Create-CustomWebObject -Title $subSite.Title -ParentTitle $parentTitle -Web $subSite -IsRoot $false 
+			$Global:AP_SPEnvironment_Webs += Create-AP_SPEnvironment_CustomWebObject -Title $subSite.Title -ParentTitle $parentTitle -Web $subSite -IsRoot $false 
                 
 			Write-Host -Message "Load Web '$($subSite.Title)' are success" -Type success
                 
-			$webs = PnPFunc_Get-PnPSubWebs -Web $subSite
+			$webs = Use-AP_SPEnvironment_PnP_Get-PnPSubWebs -Web $subSite
 
 			if($webs -ne $null) 
 			{
-				Load-ChildWebs -parentWeb $subSite -children $webs
+				Load-AP_SPEnvironment_ChildWebs -parentWeb $subSite -children $webs
 			}           
         }
     } 
 	end
 	{
-		Write-Verbose "Load-ChildWebs end"
+		Write-Verbose "Load-AP_SPEnvironment_ChildWebs end"
 	}
 }
 
-function Set-CurrentWebFromGlobalWebs
+function Set-AP_SPEnvironment_CurrentWebFromGlobalWebs
 {
 	<# 
 	.SYNOPSIS
@@ -532,19 +532,19 @@ function Set-CurrentWebFromGlobalWebs
 	)
 	begin
 	{
-		Write-Verbose "Set-CurrentWebFromGlobalWebs begin"
+		Write-Verbose "Set-AP_SPEnvironment_CurrentWebFromGlobalWebs begin"
 	}
 	process
 	{
-		$curWeb = $Global:Webs | Where-Object { $_.Title -eq $SiteTitle }
+		$curWeb = $Global:AP_SPEnvironment_Webs | Where-Object { $_.Title -eq $SiteTitle }
 
-		$Global:CurrentWeb = $curWeb
+		$Global:AP_SPEnvironment_CurrentWeb = $curWeb
 
 		Write-Host "Setting Current Web $($curWeb.Title) are succesful"
 	}
 	end
 	{
-		Write-Verbose "Set-CurrentWebFromGlobalWebs end"
+		Write-Verbose "Set-AP_SPEnvironment_CurrentWebFromGlobalWebs end"
 	}
     
 }
