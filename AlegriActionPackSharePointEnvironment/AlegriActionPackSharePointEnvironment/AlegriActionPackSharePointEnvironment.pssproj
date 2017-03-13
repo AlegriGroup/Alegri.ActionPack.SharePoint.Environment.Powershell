@@ -36,7 +36,9 @@
     <Compile Include="AlegriActionPackSharePointEnvironment.psd1" />
     <Compile Include="AlegriActionPackSharePointEnvironment.psm1" />
     <Compile Include="AlegriActionPackSharePointEnvironment.tests.ps1" />
+    <Compile Include="Documentation\BeispielActionXML.png" />
     <Compile Include="Documentation\BeispielUmgebungXML.png" />
+    <Compile Include="Documentation\ExampleUserCredential.png" />
     <Compile Include="PSScripts\AP_SPEnvironment.ps1" />
     <Compile Include="PSScripts\DependentFunction.ps1" />
     <Compile Include="PSScripts\UserCredential.ps1" />
@@ -44,12 +46,12 @@
     <Compile Include="XMLFiles\ExampleActionsXML.xml" />
     <Compile Include="XMLFiles\ExampleEnvironments.xml" />
     <Compile Include="XMLSchema\AlegriActionFlowSchema.xsd" />
-    <Compile Include="XMLSchema\AlegriAP_EnvironmentSchema.xsd" />
     <Compile Include="XMLSchema\AlegriAP_SPEnvironmentSchema.xsd" />
-    <Compile Include="XMLSchema\AlegriAP_UserCredentialSchema.xsd" />
+    <Compile Include="XMLSchema\AlegriAP_EnvironmentSchema.xsd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="XMLFiles\ExampleUserCredential.xml" />
+    <Content Include="XMLSchema\AlegriAP_UserCredentialSchema.xsd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

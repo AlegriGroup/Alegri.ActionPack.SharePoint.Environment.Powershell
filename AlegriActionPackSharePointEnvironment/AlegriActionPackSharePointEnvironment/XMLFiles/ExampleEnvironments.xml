@@ -5,6 +5,14 @@
                    Credential="dev_marcel" 
                    SharePointVersion="16" 
                    SiteRelUrl="/sites/AP_Testsite/" 
-                   SiteUrl="https://pcampergue.sharepoint.com/sites/AP_Testsite" 
-  />
+                   SiteUrl="https://pcampergue.sharepoint.com/sites/AP_Testsite" />
+  <alg:Environment Designation="devPatvkfsmart" 
+                   ConnectTyp="Teamsite" 
+                   Credential="dev_marcel" 
+                   SharePointVersion="16" 
+                   SiteRelUrl="/sites/vkfsmartTestProvisioning/" 
+                   SiteUrl="https://pcampergue.sharepoint.com/sites/vkfsmartTestProvisioning" />
+  <alg:Environment Designation="devZeiss" 
+                   ConnectTyp="Teamsite" Credential="dev_pat" SharePointVersion="16" SiteRelUrl="/sites/poczeiss/" 
+                   SiteUrl="https://pcampergue.sharepoint.com/sites/poczeiss"/>
 </alg:EnvironmentConfiguration>

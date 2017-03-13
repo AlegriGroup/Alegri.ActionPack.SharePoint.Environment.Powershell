@@ -48,6 +48,14 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="pathToProject" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          The Path to the Current Project.
+          Die Pfadangabe zu der aktuellen Project. Sobald dieser Wert gesetzt ist, können Sie in den Pfadangaben das Property{PathToProject} verwenden.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="ConnectEnvironment">

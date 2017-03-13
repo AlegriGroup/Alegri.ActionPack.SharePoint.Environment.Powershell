@@ -15,6 +15,7 @@ $Global:AP_SPEnvironment_RootWeb = $null
 $Global:AP_SPEnvironment_RootSite = $null
 $Global:AP_SPEnvironment_Webs = $null
 $Global:AP_SPEnvironment_CurrentWeb = $null
+$Global:AP_SPEnvironment_ProjectPath = $null
 
 ###########################################################################################################
 

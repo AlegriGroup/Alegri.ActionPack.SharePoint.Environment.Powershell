@@ -146,7 +146,9 @@ function Get-AP_SPEnvironment_GetFileNameForCredential
 	}
 	process
 	{
-		return $Global:AP_SPEnvironment_Folder_UserCredential + "\" + $Global:AP_SPEnvironment_XmlCurrentUserCredential.CredentialName + "_" + $Global:AP_SPEnvironment_XmlCurrentUserCredential.UserName + ".txt"
+        $userName = $Global:AP_SPEnvironment_XmlCurrentUserCredential.UserName.Replace("\","_");
+
+		return $Global:AP_SPEnvironment_Folder_UserCredential + "\" + $Global:AP_SPEnvironment_XmlCurrentUserCredential.CredentialName + "_" + $userName + ".txt"
 	}
 	end
 	{

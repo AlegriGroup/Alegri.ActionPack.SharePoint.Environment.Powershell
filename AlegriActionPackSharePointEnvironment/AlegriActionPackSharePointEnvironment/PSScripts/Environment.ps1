@@ -23,9 +23,17 @@ function Start-AP_SPEnvironment_Init
     }
     Process
     {	
-		Load-AP_SPEnvironment_EnvironmentsInSession -pfadToXML $xmlActionObject.pathXMLEnvironment 
+		if($xmlActionObject.pathToProject)
+		{
+			$Global:AP_SPEnvironment_ProjectPath = $xmlActionObject.pathToProject;
+		}
 
-		Load-AP_SPEnvironment_UserCredentialsInSession -pfadToXML $xmlActionObject.pathXMLUserCredential	
+		$envxml = Check-AP_SPEnvironment_ReplaceProjectPath -path $xmlActionObject.pathXMLEnvironment
+		$credxml = Check-AP_SPEnvironment_ReplaceProjectPath -path $xmlActionObject.pathXMLUserCredential
+
+		Load-AP_SPEnvironment_EnvironmentsInSession -pfadToXML $envxml
+
+		Load-AP_SPEnvironment_UserCredentialsInSession -pfadToXML $credxml			
     }
     End
     {
@@ -58,8 +66,13 @@ function Start-AP_SPEnvironment_Connect
 			
 		Set-AP_SPEnvironment_CurrentEnvFromEnvsInSession -nameFromEnvironment $envName
 
-		if($xmlActionObject.UserCredentialName)	{ Set-AP_SPEnvironment_CurrentUserFromCredentialsInSession -nameFromUserCredential $xmlActionObject.UserCredentialName 
-		} else { 	Set-AP_SPEnvironment_CurrentUserFromCredentialsInSession -nameFromUserCredential $Global:AP_SPEnvironment_XmlCurrentEnvironment.Credential }
+		if($xmlActionObject.UserCredentialName)	
+		{	 
+			Set-AP_SPEnvironment_CurrentUserFromCredentialsInSession -nameFromUserCredential $xmlActionObject.UserCredentialName 
+		} else 
+		{ 	
+			Set-AP_SPEnvironment_CurrentUserFromCredentialsInSession -nameFromUserCredential $Global:AP_SPEnvironment_XmlCurrentEnvironment.Credential 
+		}
 				
 		Watch-AP_SPEnvironment_UserPassword 
 				
@@ -537,10 +550,18 @@ function Set-AP_SPEnvironment_CurrentWebFromGlobalWebs
 	process
 	{
 		$curWeb = $Global:AP_SPEnvironment_Webs | Where-Object { $_.Title -eq $SiteTitle }
+        
+        if($curWeb -ne $null)
+        {
+            $Global:AP_SPEnvironment_CurrentWeb = $curWeb
 
-		$Global:AP_SPEnvironment_CurrentWeb = $curWeb
-
-		Write-Host "Setting Current Web $($curWeb.Title) are succesful"
+		    Write-Host "Setting Current Web $($curWeb.Title) are succesful" -ForegroundColor Green
+        }
+        else 
+        {
+            throw "The Web with Title [$($SiteTitle)] are not founded"
+        }
+		
 	}
 	end
 	{
@@ -549,3 +570,44 @@ function Set-AP_SPEnvironment_CurrentWebFromGlobalWebs
     
 }
 
+<#.Synopsis
+<!<SnippetShortDescription>!>
+.DESCRIPTION
+<!<SnippetLongDescription>!>
+.EXAMPLE
+<!<SnippetExample>!>
+.EXAMPLE
+<!<SnippetAnotherExample>!>
+#>
+function Check-AP_SPEnvironment_ReplaceProjectPath
+{
+    [CmdletBinding()]
+    [OutputType([int])]
+    param
+    (
+        [Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true,Position=0)]
+        $path
+	)
+    Begin
+    {
+          Write-Verbose "Check-AP_SPEnvironment_ReplaceProjectPath BEGIN"
+    }
+    Process
+    {
+        if($Global:AP_SPEnvironment_ProjectPath -ne $null)
+		{
+			$path = $path.Replace("{PathToProject}", $Global:AP_SPEnvironment_ProjectPath);
+		}
+
+		return $path
+    }
+    End
+    {
+		Write-Verbose "Check-AP_SPEnvironment_ReplaceProjectPath END"
+    }
+}
+
+function Get-AP_SPEnvironment_ProjectPath
+{
+	return $Global:AP_SPEnvironment_ProjectPath;
+}
