@@ -13,7 +13,7 @@ function Use-AP_SPEnvironment_PnP_GetSPOContext
     }
     Process
     {
-        return Get-SPOContext #PNP  
+        return Get-PnPContext #PNP  
     }
     End
     {
@@ -32,7 +32,7 @@ function Use-AP_SPEnvironment_PnP_Get-SPOWeb
     }
     Process
     {
-        return Get-SPOWeb #PNP 
+        return Get-PnPWeb #PNP 
     }
     End
     {
@@ -75,7 +75,7 @@ function Use-AP_SPEnvironment_PnP_Connect-SPOnline
     }
     Process
     {
-          Connect-SPOnline -Url $Url -Credentials $Credentials
+          Connect-PnPOnline -Url $Url -Credentials $Credentials
     }
     End
     {
@@ -94,7 +94,7 @@ function Use-AP_SPEnvironment_PnP_Disconnect-SPOnline
     }
     Process
     {
-        Disconnect-SPOnline #PNP 
+        Disconnect-PnPOnline #PNP 
     }
     End
     {
@@ -140,9 +140,9 @@ function Use-AP_SPEnvironment_AlegriModul_Connect-SPOnlineADFS
     Process
     {
 		if($Use32BitMode) {
-			Connect-SPOnlineADFS -Url $Url -Use32BitMode
+			Connect-PnPOnlineADFS -Url $Url -Use32BitMode
 		} else {
-			Connect-SPOnlineADFS -Url $Url
+			Connect-PnPOnlineADFS -Url $Url
 		}
     }
     End
@@ -162,7 +162,7 @@ function Use-AP_SPEnvironment_AlegriModul_Disconnect-SPOnlineADFS
     }
     Process
     {
-		Disconnect-SPOnlineADFS
+		Disconnect-PnPOnlineADFS
     }
     End
     {
