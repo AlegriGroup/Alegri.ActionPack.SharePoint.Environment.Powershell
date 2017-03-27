@@ -22,7 +22,6 @@
     <xs:annotation>
       <xs:documentation>
         Defines an environment.
-
         Hiermit definieren Sie eine Umgebung.
       </xs:documentation>
     </xs:annotation>
@@ -54,6 +53,13 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
+    <xs:attribute name="Url" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Geben Sie hier die URL für die Subsite an.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="Credential" type="xs:string" use="required">
       <xs:annotation>
         <xs:documentation>
@@ -78,6 +84,42 @@
           There are two SharePoint versions 15 and 16. Please specify the correct version from the environment.This is required for pages or WebParts to be used in different versions.
 
           Es gibt zwei SharePoint Versionen 15 und 16. Bitte geben Sie von der Umgebung die korrekte Version an.Diese wird benötigt damit Pages bzw. WebParts in verschiedene Versionen verwendenbar sind.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="Title" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Der Titel des Webs.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="SubSites" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Hiermit wird die SubSeiten(Beziehung zu einem anderen Environment) hergestellt.
+          Trennung mehrere SubSeiten wird mit dem ; Zeichen signalisiert
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="Description" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Hier geben Sie eine Beschreibung zu der Subsite an
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="Locale" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Hier geben Sie die Sprache für die Subsite an. Default: 1033
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="Template" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Hier geben Sie das Template für die SubSite an. Default:STS#0
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>

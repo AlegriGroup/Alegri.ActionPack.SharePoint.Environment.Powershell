@@ -140,9 +140,9 @@ function Use-AP_SPEnvironment_AlegriModul_Connect-SPOnlineADFS
     Process
     {
 		if($Use32BitMode) {
-			Connect-PnPOnlineADFS -Url $Url -Use32BitMode
+			Connect-SPOnlineADFS -Url $Url -Use32BitMode
 		} else {
-			Connect-PnPOnlineADFS -Url $Url
+			Connect-SPOnlineADFS -Url $Url
 		}
     }
     End
@@ -162,7 +162,7 @@ function Use-AP_SPEnvironment_AlegriModul_Disconnect-SPOnlineADFS
     }
     Process
     {
-		Disconnect-PnPOnlineADFS
+		Disconnect-SPOnlineADFS
     }
     End
     {

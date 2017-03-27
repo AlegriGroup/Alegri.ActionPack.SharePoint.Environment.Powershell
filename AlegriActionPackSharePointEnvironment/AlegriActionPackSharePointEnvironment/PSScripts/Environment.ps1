@@ -145,8 +145,20 @@ function Start-AP_SPEnvironment_InitWeb
     }
     Process
     {
-        $siteTitle = $xmlActionObject.SiteTitle
-		Set-AP_SPEnvironment_CurrentWebFromGlobalWebs -SiteTitle $siteTitle
+		$siteTitle = $null
+		
+		if($xmlActionObject.Destignation) {
+			$env = Get-EnvironmentFromDestignation -destignation $xmlActionObject.Destignation
+			$siteTitle = $env.Title
+		}
+
+		if($xmlActionObject.SiteTitle) {
+			$siteTitle = $xmlActionObject.SiteTitle
+		}
+
+		if($siteTitle -ne $null) {
+			Set-AP_SPEnvironment_CurrentWebFromGlobalWebs -SiteTitle $siteTitle
+		}
     }
     End
     {
@@ -228,7 +240,8 @@ function Set-AP_SPEnvironment_CurrentEnvFromEnvsInSession
     }
     Process
     {
-		$env = $Global:AP_SPEnvironment_XmlConfigEnvironment |  Where-Object {$_.Designation -eq $nameFromEnvironment }
+		$env = Get-EnvironmentFromDestignation -destignation $nameFromEnvironment
+		
 		if($env -eq $null)
 		{
 			Write-Error "The Environment was not found"
@@ -549,7 +562,7 @@ function Set-AP_SPEnvironment_CurrentWebFromGlobalWebs
 	}
 	process
 	{
-		$curWeb = $Global:AP_SPEnvironment_Webs | Where-Object { $_.Title -eq $SiteTitle }
+		$curWeb = Get-WebFromTitle -title $SiteTitle
         
         if($curWeb -ne $null)
         {
@@ -559,7 +572,7 @@ function Set-AP_SPEnvironment_CurrentWebFromGlobalWebs
         }
         else 
         {
-            throw "The Web with Title [$($SiteTitle)] are not founded"
+            throw "The Web with Title [$($SiteTitle)] are not founded [Set-AP_SPEnvironment_CurrentWebFromGlobalWebs]"
         }
 		
 	}
@@ -610,4 +623,63 @@ function Check-AP_SPEnvironment_ReplaceProjectPath
 function Get-AP_SPEnvironment_ProjectPath
 {
 	return $Global:AP_SPEnvironment_ProjectPath;
+}
+
+function Get-EnvironmentFromDestignation
+{
+	[CmdletBinding()]
+    [OutputType([int])]
+    param
+    (
+		[Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$true,Position=0)]
+        $destignation
+	)
+    Begin
+    {
+          Write-Verbose "Get-EnvironmentFromDestignation BEGIN"
+    }
+    Process
+    {
+        $env = $Global:AP_SPEnvironment_XmlConfigEnvironment |  Where-Object {$_.Designation -eq $destignation }
+		
+		if($env){ return $env } 
+		else
+		{
+			throw "Destignation $($destignation) are unkown [Get-EnvironmentFromDestignation]"
+		}
+
+    }
+    End
+    {
+		Write-Verbose "Get-EnvironmentFromDestignation END"
+    }
+}
+
+function Get-WebFromTitle 
+{
+[CmdletBinding()]
+    [OutputType([int])]
+    param
+    (
+        $title
+	)
+    Begin
+    {
+          Write-Verbose "Get-WebFromTitle BEGIN"
+    }
+    Process
+    {
+        $curWeb = $Global:AP_SPEnvironment_Webs | Where-Object { $_.Title -eq $title }
+		
+		if($curWeb){ return $curWeb } 
+		else
+		{
+			throw "The Web with Title [$($title)] are not founded [Get-WebFromTitle]"
+		}
+
+    }
+    End
+    {
+		Write-Verbose "Get-WebFromTitle END"
+    }
 }
