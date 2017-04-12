@@ -249,8 +249,6 @@ function Set-AP_SPEnvironment_CurrentEnvFromEnvsInSession
 		else 
 		{
 			$Global:AP_SPEnvironment_XmlCurrentEnvironment = $env
-			$Global:AP_SPEnvironment_SiteRelUrl = $env.SiteRelUrl
-			$Global:AP_SPEnvironment_SiteUrl = $env.SiteUrl
 
 			Write-Host "The Environment $($nameFromEnvironment) was now the Current Environemnt" -ForegroundColor Green
 		}		
@@ -572,6 +570,8 @@ function Set-AP_SPEnvironment_CurrentWebFromGlobalWebs
         if($curWeb -ne $null)
         {
             $Global:AP_SPEnvironment_CurrentWeb = $curWeb
+			$Global:AP_SPEnvironment_SiteRelUrl = $curWeb.Web.ServerRelativeUrl
+			$Global:AP_SPEnvironment_SiteUrl = $curWeb.Web.Url
 
 		    Write-Host "Setting Current Web $($curWeb.Title) are succesful" -ForegroundColor Green
         }
