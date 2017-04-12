@@ -28,8 +28,8 @@ function Start-AP_SPEnvironment_Init
 			$Global:AP_SPEnvironment_ProjectPath = $xmlActionObject.pathToProject;
 		}
 
-		$envxml = Check-AP_SPEnvironment_ReplaceProjectPath -path $xmlActionObject.pathXMLEnvironment
-		$credxml = Check-AP_SPEnvironment_ReplaceProjectPath -path $xmlActionObject.pathXMLUserCredential
+		$envxml = Check-AP_SPEnvironment_ReplaceEnvVariable -path $xmlActionObject.pathXMLEnvironment
+		$credxml = Check-AP_SPEnvironment_ReplaceEnvVariable -path $xmlActionObject.pathXMLUserCredential
 
 		Load-AP_SPEnvironment_EnvironmentsInSession -pfadToXML $envxml
 
@@ -249,6 +249,9 @@ function Set-AP_SPEnvironment_CurrentEnvFromEnvsInSession
 		else 
 		{
 			$Global:AP_SPEnvironment_XmlCurrentEnvironment = $env
+			$Global:AP_SPEnvironment_SiteRelUrl = $env.SiteRelUrl
+			$Global:AP_SPEnvironment_SiteUrl = $env.SiteUrl
+
 			Write-Host "The Environment $($nameFromEnvironment) was now the Current Environemnt" -ForegroundColor Green
 		}		
     }
@@ -592,7 +595,7 @@ function Set-AP_SPEnvironment_CurrentWebFromGlobalWebs
 .EXAMPLE
 <!<SnippetAnotherExample>!>
 #>
-function Check-AP_SPEnvironment_ReplaceProjectPath
+function Check-AP_SPEnvironment_ReplaceEnvVariable
 {
     [CmdletBinding()]
     [OutputType([int])]
@@ -603,7 +606,7 @@ function Check-AP_SPEnvironment_ReplaceProjectPath
 	)
     Begin
     {
-          Write-Verbose "Check-AP_SPEnvironment_ReplaceProjectPath BEGIN"
+          Write-Verbose "Check-AP_SPEnvironment_ReplaceEnvVariable BEGIN"
     }
     Process
     {
@@ -611,12 +614,14 @@ function Check-AP_SPEnvironment_ReplaceProjectPath
 		{
 			$path = $path.Replace("{PathToProject}", $Global:AP_SPEnvironment_ProjectPath);
 		}
+		$path = $path.Replace("{SiteRelUrl}", $Global:AP_SPEnvironment_SiteRelUrl );
+		$path = $path.Replace("{SiteUrl}", $Global:AP_SPEnvironment_SiteUrl);
 
 		return $path
     }
     End
     {
-		Write-Verbose "Check-AP_SPEnvironment_ReplaceProjectPath END"
+		Write-Verbose "Check-AP_SPEnvironment_ReplaceEnvVariable END"
     }
 }
 
