@@ -323,6 +323,8 @@ function Connect-AP_SPEnvironment_CurrentEnv
             $Global:AP_SPEnvironment_RootContext = Use-AP_SPEnvironment_PnP_GetSPOContext
 			$Global:AP_SPEnvironment_RootWeb = Use-AP_SPEnvironment_PnP_Get-SPOWeb 
 			$Global:AP_SPEnvironment_RootSite = Use-AP_SPEnvironment_PnP_Get-PnPSite 
+			$Global:AP_SPEnvironment_RootSiteRelUrl = $Global:AP_SPEnvironment_RootWeb.ServerRelativeUrl
+			$Global:AP_SPEnvironment_RootSiteUrl = $Global:AP_SPEnvironment_RootWeb.Url
         }
         catch
         {
@@ -616,6 +618,8 @@ function Check-AP_SPEnvironment_ReplaceEnvVariable
 		}
 		$path = $path.Replace("{SiteRelUrl}", $Global:AP_SPEnvironment_SiteRelUrl );
 		$path = $path.Replace("{SiteUrl}", $Global:AP_SPEnvironment_SiteUrl);
+		$path = $path.Replace("{RootSiteRelUrl}", $Global:AP_SPEnvironment_RootSiteRelUrl );
+		$path = $path.Replace("{RootSiteUrl}", $Global:AP_SPEnvironment_RootSiteUrl);
 
 		return $path
     }
